@@ -6,14 +6,14 @@
 //  Copyright © 2017 MoonSandApps. All rights reserved.
 //
 
+#import "DataSource.h"
 #import "ImagesHomeVC.h"
+#import "ImagePost.h"
 
 @interface ImagesHomeVC ()
-#pragma mark
-#pragma mark - Properties
-#pragma mark
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *images;
+
 @end
 
 @implementation ImagesHomeVC
@@ -22,20 +22,12 @@
 #pragma mark
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.images = [NSMutableArray array];
-    for (int i = 1; i <= 10; i++) {
-        NSString *imageName = [NSString stringWithFormat: @"%d.jpg", i];
-        UIImage *image = [UIImage imageNamed: imageName];
-        if (image) {
-            [self.images addObject: image];
-        }
-    }
 }
 #pragma mark
 #pragma mark - UITableViewDelegate, UITableViewDataSource Methods
 #pragma mark
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.images.count;
+    return [DataSource shared].imagePosts.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: @"imageCell" forIndexPath: indexPath];
@@ -50,8 +42,8 @@
         imageView.tag = imageViewTag;
         [cell.contentView addSubview: imageView];
     }
-    UIImage *image = self.images[indexPath.row];
-    imageView.image = image;
+    ImagePost *post = [DataSource shared].imagePosts[indexPath.row];
+    imageView.image = post.image;
     return cell;
 }
 @end
