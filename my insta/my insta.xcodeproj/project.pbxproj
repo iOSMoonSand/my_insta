@@ -17,7 +17,6 @@
 		5E44EEE11E1DDB0C007913D6 /* 8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5E44EED71E1DDB0C007913D6 /* 8.jpg */; };
 		5E44EEE21E1DDB0C007913D6 /* 9.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5E44EED81E1DDB0C007913D6 /* 9.jpg */; };
 		5E44EEE31E1DDB0C007913D6 /* 10.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5E44EED91E1DDB0C007913D6 /* 10.jpg */; };
-		5E44EEE61E1DDBEC007913D6 /* ImagesHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E44EEE51E1DDBEC007913D6 /* ImagesHomeVC.m */; };
 		5E7FAED01E1DD1A200828196 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7FAECF1E1DD1A200828196 /* main.m */; };
 		5E7FAED31E1DD1A200828196 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7FAED21E1DD1A200828196 /* AppDelegate.m */; };
 		5E7FAED91E1DD1A200828196 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E7FAED71E1DD1A200828196 /* Main.storyboard */; };
@@ -27,6 +26,8 @@
 		5E9B6FB01E1EE86D00B3AA02 /* ImagePost.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B6FAF1E1EE86D00B3AA02 /* ImagePost.m */; };
 		5E9B6FB31E1F137000B3AA02 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B6FB21E1F137000B3AA02 /* Comment.m */; };
 		5E9B6FB61E1F148D00B3AA02 /* DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B6FB51E1F148D00B3AA02 /* DataSource.m */; };
+		5E9B6FBB1E1F305E00B3AA02 /* ImagePostCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B6FBA1E1F305E00B3AA02 /* ImagePostCell.m */; };
+		5E9B6FBE1E1F308E00B3AA02 /* ImagePostHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B6FBD1E1F308E00B3AA02 /* ImagePostHomeVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,8 +41,6 @@
 		5E44EED71E1DDB0C007913D6 /* 8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 8.jpg; sourceTree = "<group>"; };
 		5E44EED81E1DDB0C007913D6 /* 9.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 9.jpg; sourceTree = "<group>"; };
 		5E44EED91E1DDB0C007913D6 /* 10.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 10.jpg; sourceTree = "<group>"; };
-		5E44EEE41E1DDBEC007913D6 /* ImagesHomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagesHomeVC.h; sourceTree = "<group>"; };
-		5E44EEE51E1DDBEC007913D6 /* ImagesHomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagesHomeVC.m; sourceTree = "<group>"; };
 		5E7FAECB1E1DD1A200828196 /* my insta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "my insta.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E7FAECF1E1DD1A200828196 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5E7FAED11E1DD1A200828196 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -58,6 +57,10 @@
 		5E9B6FB21E1F137000B3AA02 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
 		5E9B6FB41E1F148D00B3AA02 /* DataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSource.h; sourceTree = "<group>"; };
 		5E9B6FB51E1F148D00B3AA02 /* DataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSource.m; sourceTree = "<group>"; };
+		5E9B6FB91E1F305E00B3AA02 /* ImagePostCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePostCell.h; sourceTree = "<group>"; };
+		5E9B6FBA1E1F305E00B3AA02 /* ImagePostCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePostCell.m; sourceTree = "<group>"; };
+		5E9B6FBC1E1F308E00B3AA02 /* ImagePostHomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePostHomeVC.h; sourceTree = "<group>"; };
+		5E9B6FBD1E1F308E00B3AA02 /* ImagePostHomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePostHomeVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +144,7 @@
 		5E9B6FA81E1EE3A300B3AA02 /* Images Home */ = {
 			isa = PBXGroup;
 			children = (
+				5E9B6FB81E1F300600B3AA02 /* Table View Cells */,
 				5E9B6FA91E1EE3B700B3AA02 /* View Controller */,
 			);
 			name = "Images Home";
@@ -149,8 +153,8 @@
 		5E9B6FA91E1EE3B700B3AA02 /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
-				5E44EEE41E1DDBEC007913D6 /* ImagesHomeVC.h */,
-				5E44EEE51E1DDBEC007913D6 /* ImagesHomeVC.m */,
+				5E9B6FBC1E1F308E00B3AA02 /* ImagePostHomeVC.h */,
+				5E9B6FBD1E1F308E00B3AA02 /* ImagePostHomeVC.m */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -175,6 +179,15 @@
 				5E9B6FB51E1F148D00B3AA02 /* DataSource.m */,
 			);
 			name = "Data Source";
+			sourceTree = "<group>";
+		};
+		5E9B6FB81E1F300600B3AA02 /* Table View Cells */ = {
+			isa = PBXGroup;
+			children = (
+				5E9B6FB91E1F305E00B3AA02 /* ImagePostCell.h */,
+				5E9B6FBA1E1F305E00B3AA02 /* ImagePostCell.m */,
+			);
+			name = "Table View Cells";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,10 +274,11 @@
 			files = (
 				5E9B6FAD1E1EE5A100B3AA02 /* User.m in Sources */,
 				5E9B6FB31E1F137000B3AA02 /* Comment.m in Sources */,
-				5E44EEE61E1DDBEC007913D6 /* ImagesHomeVC.m in Sources */,
+				5E9B6FBB1E1F305E00B3AA02 /* ImagePostCell.m in Sources */,
 				5E9B6FB01E1EE86D00B3AA02 /* ImagePost.m in Sources */,
 				5E9B6FB61E1F148D00B3AA02 /* DataSource.m in Sources */,
 				5E7FAED31E1DD1A200828196 /* AppDelegate.m in Sources */,
+				5E9B6FBE1E1F308E00B3AA02 /* ImagePostHomeVC.m in Sources */,
 				5E7FAED01E1DD1A200828196 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

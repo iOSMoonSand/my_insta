@@ -54,10 +54,10 @@
             NSMutableArray *randomComments = [NSMutableArray array];
             for (int i  = 0; i <= commentCount; i++) {
                 Comment *randomComment = [self createRandomComment];
-                [randomComments addObject:randomComment];
+                [randomComments addObject: randomComment];
             }
             post.comments = randomComments;
-            [randomImagePosts addObject:post];
+            [randomImagePosts addObject: post];
         }
     }
     self.imagePosts = randomImagePosts;
