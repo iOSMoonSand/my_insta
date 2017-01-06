@@ -6,13 +6,14 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Images HomeVC-->
+        <!--Image Post HomeVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="BYZ-38-t0r" customClass="ImagesHomeVC" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="BYZ-38-t0r" customClass="ImagePostHomeVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -21,17 +22,55 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="280" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fcH-5E-vef">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="377" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fcH-5E-vef">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="imageCell" rowHeight="280" id="ksH-Uo-YiM">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="280"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImagePostCell" rowHeight="377" id="ksH-Uo-YiM" customClass="ImagePostCell">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="377"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ksH-Uo-YiM" id="65I-ut-awX">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="279"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="376"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comments: Author + Text\n" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jrl-nX-YWq">
+                                                    <rect key="frame" x="8" y="345" width="359" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Caption: Author + Text" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vNv-7t-11X">
+                                                    <rect key="frame" x="8" y="308" width="359" height="21"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <color key="textColor" red="0.10980392160000001" green="0.67450980390000004" blue="0.89019607840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MZa-oH-qYI">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="300" id="Rdw-XQ-4O5"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="vNv-7t-11X" firstAttribute="trailing" secondItem="65I-ut-awX" secondAttribute="trailingMargin" id="2Po-gP-Yko"/>
+                                                <constraint firstItem="vNv-7t-11X" firstAttribute="leading" secondItem="65I-ut-awX" secondAttribute="leadingMargin" id="MLf-X0-qCD"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Jrl-nX-YWq" secondAttribute="bottom" constant="2.5" id="WJW-w7-aHt"/>
+                                                <constraint firstAttribute="trailing" secondItem="MZa-oH-qYI" secondAttribute="trailing" id="bJ8-V7-vJO"/>
+                                                <constraint firstItem="Jrl-nX-YWq" firstAttribute="leading" secondItem="65I-ut-awX" secondAttribute="leadingMargin" id="gAJ-Ri-id9"/>
+                                                <constraint firstItem="vNv-7t-11X" firstAttribute="top" secondItem="MZa-oH-qYI" secondAttribute="bottom" constant="8" id="gNf-Ki-B2c"/>
+                                                <constraint firstItem="MZa-oH-qYI" firstAttribute="centerX" secondItem="65I-ut-awX" secondAttribute="centerX" id="lbi-8T-Bhv"/>
+                                                <constraint firstItem="MZa-oH-qYI" firstAttribute="top" secondItem="65I-ut-awX" secondAttribute="top" id="nAn-fO-vMT"/>
+                                                <constraint firstItem="MZa-oH-qYI" firstAttribute="leading" secondItem="65I-ut-awX" secondAttribute="leading" id="orq-XF-tmA"/>
+                                                <constraint firstItem="Jrl-nX-YWq" firstAttribute="trailing" secondItem="65I-ut-awX" secondAttribute="trailingMargin" id="to3-7g-dRX"/>
+                                                <constraint firstItem="Jrl-nX-YWq" firstAttribute="top" secondItem="vNv-7t-11X" secondAttribute="bottom" constant="16" id="y7S-85-58Z"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="postCaptionLabel" destination="vNv-7t-11X" id="cjk-LP-BVF"/>
+                                            <outlet property="postCommentLabel" destination="Jrl-nX-YWq" id="BGN-Qp-KIb"/>
+                                            <outlet property="postImageView" destination="MZa-oH-qYI" id="f4h-lL-6aA"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
