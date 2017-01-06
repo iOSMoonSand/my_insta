@@ -26,6 +26,9 @@
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = 480;
     [[DataSource shared] addObserver: self forKeyPath: @"imagePosts" options: 0 context: nil];
+    UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
+    [refresh addTarget: self action: @selector(didPullToRefresh:) forControlEvents: UIControlEventValueChanged];
+    [self.tableView addSubview: refresh];
 }
 #pragma mark
 #pragma mark - UITableViewDelegate, UITableViewDataSource Methods
@@ -39,6 +42,16 @@
     [cell performWith: cell.post];
     return cell;
 }
+
+
+- (void)didPullToRefresh: (UIRefreshControl *)sender {
+    [[DataSource shared] requestNewItemsWith:^(NSError *error) {
+        [sender endRefreshing];
+    }];
+}
+
+
+
 #pragma mark
 #pragma mark - Key/Value Observer Methods
 #pragma mark

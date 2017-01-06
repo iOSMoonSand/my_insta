@@ -74,13 +74,19 @@
 - (void)requestNewItemsWith:(NewItemsCompletion)completion {
     if (self.isRefreshing == NO) {
         self.isRefreshing = YES;
-        
+        #pragma mark TODO: refactor with Instagram API methods
         //access Instagram API to pull new data
-        //if there is new data, place at index 0 of imagePosts
-        //may need to go back in curriculum ans make array KVC (Ch 31)
-        
+        ImagePost *post = [[ImagePost alloc] init];
+        post.image = [UIImage imageNamed: @"lol.jpg"];
+        post.caption = [NSString stringWithFormat: @"this is a caption to lol!"];
+        NSMutableArray *kvcArray = [self mutableArrayValueForKey: @"imagePosts"];
+        [kvcArray insertObject: post atIndex: 0];
         self.isRefreshing = NO;
-        
+        #pragma mark TODO: refactor error handling
+        //not calling an error because using dummy data for now
+        if (completion) {
+            completion(nil);
+        }
     }
 }
 #pragma mark
