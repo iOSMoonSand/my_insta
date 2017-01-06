@@ -8,10 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void(^NewItemsCompletion)(NSError *error);
+
 @interface DataSource : NSObject
 
 @property (nonatomic, strong, readonly) NSArray *imagePosts;
 
 + (instancetype)shared;
+- (void)requestNewItemsWith: (NewItemsCompletion)completion;
 
 @end
