@@ -11,9 +11,12 @@
 #import "ImagePost.h"
 #import "User.h"
 
-@interface DataSource ()
+@interface DataSource () {
+    NSMutableArray *_imagePosts;
+}
 
 @property (nonatomic, strong) NSArray *imagePosts;
+@property (nonatomic, assign) BOOL isRefreshing;
 
 @end
 
@@ -30,7 +33,7 @@
     return shared;
 }
 #pragma mark
-#pragma mark: Instance Methods
+#pragma mark: Initialization Override Methods
 #pragma mark
 - (instancetype)init {
     self = [super init];
@@ -39,7 +42,56 @@
     }
     return self;
 }
+#pragma mark
+#pragma mark: Key/Value Observing Methods
+#pragma mark
+- (NSUInteger)countOfImagePosts {
+    return self.imagePosts.count;
+}
 
+- (id)objectInImagePostsAtIndex:(NSUInteger)index {
+    return [self.imagePosts objectAtIndex: index];
+}
+
+- (NSArray *)imagePostsAtIndexes:(NSIndexSet *)indexes {
+    return [self.imagePosts objectsAtIndexes: indexes];
+}
+
+- (void)insertObject:(ImagePost *)object inImagePostsAtIndex:(NSUInteger)index {
+    [_imagePosts insertObject: object atIndex: index];
+}
+
+- (void)removeObjectFromImagePostsAtIndex:(NSUInteger)index {
+    [_imagePosts removeObjectAtIndex: index];
+}
+
+- (void)replaceObjectInImagePostsAtIndex:(NSUInteger)index withObject:(id)object {
+    [_imagePosts replaceObjectAtIndex: index withObject: object];
+}
+#pragma mark
+#pragma mark: Pull to Refresh Methods
+#pragma mark
+- (void)requestNewItemsWith:(NewItemsCompletion)completion {
+    if (self.isRefreshing == NO) {
+        self.isRefreshing = YES;
+        #pragma mark TODO: refactor with Instagram API methods
+        //access Instagram API to pull new data
+        ImagePost *post = [[ImagePost alloc] init];
+        post.image = [UIImage imageNamed: @"lol.jpg"];
+        post.caption = [NSString stringWithFormat: @"this is a caption to lol!"];
+        NSMutableArray *kvcArray = [self mutableArrayValueForKey: @"imagePosts"];
+        [kvcArray insertObject: post atIndex: 0];
+        self.isRefreshing = NO;
+        #pragma mark TODO: refactor error handling
+        //not calling an error because using dummy data for now
+        if (completion) {
+            completion(nil);
+        }
+    }
+}
+#pragma mark
+#pragma mark: Random Data Creation Methods
+#pragma mark
 - (void) addRandomData {
     NSMutableArray *randomImagePosts = [NSMutableArray array];
     for (int i = 1; i <= 10; i++) {

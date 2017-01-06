@@ -28,6 +28,7 @@
 		5E9B6FB61E1F148D00B3AA02 /* DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B6FB51E1F148D00B3AA02 /* DataSource.m */; };
 		5E9B6FBB1E1F305E00B3AA02 /* ImagePostCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B6FBA1E1F305E00B3AA02 /* ImagePostCell.m */; };
 		5E9B6FBE1E1F308E00B3AA02 /* ImagePostHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B6FBD1E1F308E00B3AA02 /* ImagePostHomeVC.m */; };
+		5E9FD5191E20537000D6741F /* lol.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5E9FD5181E20537000D6741F /* lol.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		5E9B6FBA1E1F305E00B3AA02 /* ImagePostCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePostCell.m; sourceTree = "<group>"; };
 		5E9B6FBC1E1F308E00B3AA02 /* ImagePostHomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePostHomeVC.h; sourceTree = "<group>"; };
 		5E9B6FBD1E1F308E00B3AA02 /* ImagePostHomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePostHomeVC.m; sourceTree = "<group>"; };
+		5E9FD5181E20537000D6741F /* lol.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lol.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 		5E44EECF1E1DDAFD007913D6 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5E9FD5181E20537000D6741F /* lol.jpg */,
 				5E44EED01E1DDB0C007913D6 /* 1.jpg */,
 				5E44EED11E1DDB0C007913D6 /* 2.jpg */,
 				5E44EED21E1DDB0C007913D6 /* 3.jpg */,
@@ -114,7 +117,7 @@
 				5E7FAED21E1DD1A200828196 /* AppDelegate.m */,
 				5E9B6FAA1E1EE3C800B3AA02 /* Global Data Models */,
 				5E9B6FB71E1F149D00B3AA02 /* Data Source */,
-				5E9B6FA81E1EE3A300B3AA02 /* Images Home */,
+				5E9B6FA81E1EE3A300B3AA02 /* Image Posts Home */,
 				5E7FAED71E1DD1A200828196 /* Main.storyboard */,
 				5E7FAEDC1E1DD1A200828196 /* LaunchScreen.storyboard */,
 				5E7FAECE1E1DD1A200828196 /* Supporting Files */,
@@ -141,13 +144,13 @@
 			name = "Additional Files";
 			sourceTree = "<group>";
 		};
-		5E9B6FA81E1EE3A300B3AA02 /* Images Home */ = {
+		5E9B6FA81E1EE3A300B3AA02 /* Image Posts Home */ = {
 			isa = PBXGroup;
 			children = (
 				5E9B6FB81E1F300600B3AA02 /* Table View Cells */,
 				5E9B6FA91E1EE3B700B3AA02 /* View Controller */,
 			);
-			name = "Images Home";
+			name = "Image Posts Home";
 			sourceTree = "<group>";
 		};
 		5E9B6FA91E1EE3B700B3AA02 /* View Controller */ = {
@@ -251,6 +254,7 @@
 			files = (
 				5E44EEE31E1DDB0C007913D6 /* 10.jpg in Resources */,
 				5E44EEE11E1DDB0C007913D6 /* 8.jpg in Resources */,
+				5E9FD5191E20537000D6741F /* lol.jpg in Resources */,
 				5E44EEDF1E1DDB0C007913D6 /* 6.jpg in Resources */,
 				5E7FAEDE1E1DD1A200828196 /* LaunchScreen.storyboard in Resources */,
 				5E44EEDE1E1DDB0C007913D6 /* 5.jpg in Resources */,
@@ -401,6 +405,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = Q7DNMW64ZP;
 				INFOPLIST_FILE = "my insta/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.moonsandapps.my-insta";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -413,6 +418,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = Q7DNMW64ZP;
 				INFOPLIST_FILE = "my insta/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.moonsandapps.my-insta";
 				PRODUCT_NAME = "$(TARGET_NAME)";
