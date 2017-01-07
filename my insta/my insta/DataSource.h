@@ -13,8 +13,10 @@ typedef void(^NewItemsCompletion)(NSError *error);
 @interface DataSource : NSObject
 
 @property (nonatomic, strong, readonly) NSArray *imagePosts;
+@property (nonatomic, strong, readonly) NSString *accessToken;
 
 + (instancetype)shared;
++ (NSString *)instgrmClientID;
 - (void)requestNewItemsWith: (NewItemsCompletion)completion;
 
 @end

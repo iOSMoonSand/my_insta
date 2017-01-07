@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "DataSource.h"
+#import "ImagePostHomeVC.h"
+#import "InstgrmLoginVC.h"
 
 @interface AppDelegate ()
 
@@ -16,7 +19,17 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [DataSource shared];
+    UINavigationController *navController = [[UINavigationController alloc] init];
+    InstgrmLoginVC *loginVC = [[InstgrmLoginVC alloc] init];
+    [navController setViewControllers:@[loginVC] animated:YES]; 
+    [[NSNotificationCenter defaultCenter] addObserverForName:InstgrmLoginVCDidGetAccessTokenNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        ImagePostHomeVC *imagesVC = [[ImagePostHomeVC alloc] init];
+        [navController setViewControllers:@[imagesVC] animated:YES];
+    }];
+    self.window.rootViewController = navController;
+    [self.window makeKeyAndVisible];
     return YES;
 }
 

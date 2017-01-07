@@ -9,6 +9,7 @@
 #import "Comment.h"
 #import "DataSource.h"
 #import "ImagePost.h"
+#import "InstgrmLoginVC.h"
 #import "User.h"
 
 @interface DataSource () {
@@ -17,6 +18,7 @@
 
 @property (nonatomic, strong) NSArray *imagePosts;
 @property (nonatomic, assign) BOOL isRefreshing;
+@property (nonatomic, strong) NSString *accessToken;
 
 @end
 
@@ -32,16 +34,78 @@
     });
     return shared;
 }
+
++ (NSString *)instgrmClientID {
+    return @"48e7832219ab46a7897b545e205bbe7b";
+}
 #pragma mark
 #pragma mark: Initialization Override Methods
 #pragma mark
 - (instancetype)init {
     self = [super init];
     if (self) {
-        [self addRandomData];
+        [self registerForAccessTokenNotification];
     }
     return self;
 }
+#pragma mark
+#pragma mark: Notification Registration
+#pragma mark
+- (void)registerForAccessTokenNotification {
+    [[NSNotificationCenter defaultCenter] addObserverForName: InstgrmLoginVCDidGetAccessTokenNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        self.accessToken = note.object;
+        [self populateDataWithParameters:nil];
+    }];
+}
+
+- (void) populateDataWithParameters:(NSDictionary *)parameters {
+    if (self.accessToken) {
+        // only try to get the data if there's an access token
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            // do the network request in the background, so the UI doesn't lock up
+            
+            NSMutableString *urlString = [NSMutableString stringWithFormat:@"https://api.instagram.com/v1/users/self/media/recent?access_token=%@", self.accessToken];
+            
+            for (NSString *parameterName in parameters) {
+                // for example, if dictionary contains {count: 50}, append `&count=50` to the URL
+                [urlString appendFormat:@"&%@=%@", parameterName, parameters[parameterName]];
+            }
+            
+            NSURL *url = [NSURL URLWithString:urlString];
+            
+            if (url) {
+                NSURLRequest *request = [NSURLRequest requestWithURL:url];
+                
+                NSURLResponse *response;
+                NSError *webError;
+                NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&webError];
+                
+                if (responseData) {
+                    NSError *jsonError;
+                    NSDictionary *feedDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&jsonError];
+                    
+                    if (feedDictionary) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            // done networking, go back on the main thread
+                            [self parseDataFromFeedDictionary:feedDictionary fromRequestWithParameters:parameters];
+                        });
+                    }
+                }
+            }
+        });
+    }
+}
+
+- (void) parseDataFromFeedDictionary:(NSDictionary *) feedDictionary fromRequestWithParameters:(NSDictionary *)parameters {
+    NSLog(@"%@", feedDictionary);
+}
+
+
+
+
+
+
 #pragma mark
 #pragma mark: Key/Value Observing Methods
 #pragma mark
@@ -75,12 +139,9 @@
     if (self.isRefreshing == NO) {
         self.isRefreshing = YES;
         #pragma mark TODO: refactor with Instagram API methods
-        //access Instagram API to pull new data
-        ImagePost *post = [[ImagePost alloc] init];
-        post.image = [UIImage imageNamed: @"lol.jpg"];
-        post.caption = [NSString stringWithFormat: @"this is a caption to lol!"];
-        NSMutableArray *kvcArray = [self mutableArrayValueForKey: @"imagePosts"];
-        [kvcArray insertObject: post atIndex: 0];
+        //
+        //add images from Insta
+        //
         self.isRefreshing = NO;
         #pragma mark TODO: refactor error handling
         //not calling an error because using dummy data for now
@@ -88,70 +149,6 @@
             completion(nil);
         }
     }
-}
-#pragma mark
-#pragma mark: Random Data Creation Methods
-#pragma mark
-- (void) addRandomData {
-    NSMutableArray *randomImagePosts = [NSMutableArray array];
-    for (int i = 1; i <= 10; i++) {
-        NSString *imageName = [NSString stringWithFormat:@"%d.jpg", i];
-        UIImage *image = [UIImage imageNamed:imageName];
-        if (image) {
-            ImagePost *post = [[ImagePost alloc] init];
-            post.user = [self createRandomUser];
-            post.image = image;
-            post.caption = [self createRandomSentence];
-            NSUInteger commentCount = arc4random_uniform(10) + 2;
-            NSMutableArray *randomComments = [NSMutableArray array];
-            for (int i  = 0; i <= commentCount; i++) {
-                Comment *randomComment = [self createRandomComment];
-                [randomComments addObject: randomComment];
-            }
-            post.comments = randomComments;
-            [randomImagePosts addObject: post];
-        }
-    }
-    self.imagePosts = randomImagePosts;
-}
-
-- (User *)createRandomUser {
-    User *user = [[User alloc] init];
-    user.username = [self createRandomStringOfLength:arc4random_uniform(10) + 2];
-    NSString *firstName = [self createRandomStringOfLength:arc4random_uniform(7) + 2];
-    NSString *lastName = [self createRandomStringOfLength:arc4random_uniform(12) + 2];
-    user.fullName = [NSString stringWithFormat: @"%@ %@", firstName, lastName];
-    return user;
-}
-
-- (Comment *)createRandomComment {
-    Comment *comment = [[Comment alloc] init];
-    comment.author = [self createRandomUser];
-    comment.text = [self createRandomSentence];
-    return comment;
-}
-
-- (NSString *)createRandomSentence {
-    NSUInteger wordCount = arc4random_uniform(20) + 2;
-    NSMutableString *randomSentence = [[NSMutableString alloc] init];
-    for (int i  = 0; i <= wordCount; i++) {
-        NSString *randomWord = [self createRandomStringOfLength:arc4random_uniform(12) + 2];
-        [randomSentence appendFormat:@"%@ ", randomWord];
-    }
-    return randomSentence;
-}
-
-- (NSString *) createRandomStringOfLength:(NSUInteger) len {
-    NSString *alphabet = @"abcdefghijklmnopqrstuvwxyz";
-    
-    NSMutableString *s = [NSMutableString string];
-    for (NSUInteger i = 0U; i < len; i++) {
-        u_int32_t r = arc4random_uniform((u_int32_t)[alphabet length]);
-        unichar c = [alphabet characterAtIndex:r];
-        [s appendFormat:@"%C", c];
-    }
-    
-    return [NSString stringWithString:s];
 }
 
 @end

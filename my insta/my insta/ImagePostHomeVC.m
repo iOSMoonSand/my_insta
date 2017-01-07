@@ -36,6 +36,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [DataSource shared].imagePosts.count;
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ImagePostCell *cell = [tableView dequeueReusableCellWithIdentifier: @"ImagePostCell" forIndexPath:indexPath];
     cell.post = [DataSource shared].imagePosts[indexPath.row];
@@ -43,15 +44,11 @@
     return cell;
 }
 
-
 - (void)didPullToRefresh: (UIRefreshControl *)sender {
     [[DataSource shared] requestNewItemsWith:^(NSError *error) {
         [sender endRefreshing];
     }];
 }
-
-
-
 #pragma mark
 #pragma mark - Key/Value Observer Methods
 #pragma mark
