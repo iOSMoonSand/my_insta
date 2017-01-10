@@ -1,4 +1,4 @@
-//
+
 //  AppDelegate.m
 //  my insta
 //
@@ -19,17 +19,15 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [DataSource shared];
-    UINavigationController *navController = [[UINavigationController alloc] init];
-    InstgrmLoginVC *loginVC = [[InstgrmLoginVC alloc] init];
-    [navController setViewControllers:@[loginVC] animated:YES]; 
     [[NSNotificationCenter defaultCenter] addObserverForName:InstgrmLoginVCDidGetAccessTokenNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        ImagePostHomeVC *imagesVC = [[ImagePostHomeVC alloc] init];
-        [navController setViewControllers:@[imagesVC] animated:YES];
+        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        UIStoryboard *mainSB = [UIStoryboard storyboardWithName: @"Main" bundle: nil];
+        UIViewController *vc = [mainSB instantiateViewControllerWithIdentifier: @"ImagePostHomeVC"];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController: vc];
+        self.window.rootViewController = nav;
+        [self.window makeKeyAndVisible];
     }];
-    self.window.rootViewController = navController;
-    [self.window makeKeyAndVisible];
     return YES;
 }
 

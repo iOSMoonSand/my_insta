@@ -26,6 +26,7 @@ NSString *const InstgrmLoginVCDidGetAccessTokenNotification = @"InstgrmLoginVCDi
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.webView.delegate = self;
+    
     NSString *urlString = [NSString stringWithFormat:@"https://instagram.com/oauth/authorize/?client_id=%@&redirect_uri=%@&response_type=token", [DataSource instgrmClientID], [self redirectURI]];
     NSURL *url = [NSURL URLWithString: urlString];
     if (url) {
@@ -51,7 +52,7 @@ NSString *const InstgrmLoginVCDidGetAccessTokenNotification = @"InstgrmLoginVCDi
 #pragma mark - Instgrm Client
 #pragma mark
 - (NSString *)redirectURI {
-    return @"https://github.com/";
+    return @"https://github.com";
 }
 
 - (void)clearInstgrmCookies {

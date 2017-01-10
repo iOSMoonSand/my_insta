@@ -36,7 +36,7 @@
 }
 
 + (NSString *)instgrmClientID {
-    return @"48e7832219ab46a7897b545e205bbe7b";
+    return @"d82058321dcf406da8b36db211d2f442";
 }
 #pragma mark
 #pragma mark: Initialization Override Methods
@@ -54,41 +54,31 @@
 - (void)registerForAccessTokenNotification {
     [[NSNotificationCenter defaultCenter] addObserverForName: InstgrmLoginVCDidGetAccessTokenNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         self.accessToken = note.object;
-        [self populateDataWithParameters:nil];
+        [self retrieveJsonDataWith: nil];
     }];
 }
-
-- (void) populateDataWithParameters:(NSDictionary *)parameters {
+#pragma mark
+#pragma mark: JSON Serialization
+#pragma mark
+- (void)retrieveJsonDataWith: (NSDictionary *)parameters {
     if (self.accessToken) {
-        // only try to get the data if there's an access token
-        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            // do the network request in the background, so the UI doesn't lock up
-            
-            NSMutableString *urlString = [NSMutableString stringWithFormat:@"https://api.instagram.com/v1/users/self/media/recent?access_token=%@", self.accessToken];
-            
-            for (NSString *parameterName in parameters) {
-                // for example, if dictionary contains {count: 50}, append `&count=50` to the URL
-                [urlString appendFormat:@"&%@=%@", parameterName, parameters[parameterName]];
+            NSMutableString *urlString = [NSMutableString stringWithFormat: @"https://api.instagram.com/v1/users/self/media/recent?access_token=%@", self.accessToken];
+            for (NSString *parameterKey in parameters) {
+                [urlString appendFormat: @"&%@=%@", parameterKey, parameters[parameterKey]];
             }
-            
-            NSURL *url = [NSURL URLWithString:urlString];
-            
+            NSURL *url = [NSURL URLWithString: urlString];
             if (url) {
-                NSURLRequest *request = [NSURLRequest requestWithURL:url];
-                
+                NSURLRequest *request = [NSURLRequest requestWithURL: url];
                 NSURLResponse *response;
                 NSError *webError;
-                NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&webError];
-                
+                NSData *responseData = [NSURLConnection sendSynchronousRequest: request returningResponse: &response error: &webError];
                 if (responseData) {
                     NSError *jsonError;
-                    NSDictionary *feedDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&jsonError];
-                    
+                    NSDictionary *feedDictionary = [NSJSONSerialization JSONObjectWithData: responseData options: 0 error: &jsonError];
                     if (feedDictionary) {
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            // done networking, go back on the main thread
-                            [self parseDataFromFeedDictionary:feedDictionary fromRequestWithParameters:parameters];
+                            [self parseFeedDictionary: feedDictionary fromRequestWith: parameters];
                         });
                     }
                 }
@@ -97,15 +87,9 @@
     }
 }
 
-- (void) parseDataFromFeedDictionary:(NSDictionary *) feedDictionary fromRequestWithParameters:(NSDictionary *)parameters {
+- (void)parseFeedDictionary: (NSDictionary *)feedDictionary fromRequestWith: (NSDictionary *)parameters {
     NSLog(@"%@", feedDictionary);
 }
-
-
-
-
-
-
 #pragma mark
 #pragma mark: Key/Value Observing Methods
 #pragma mark

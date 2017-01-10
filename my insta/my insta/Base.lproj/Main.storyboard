@@ -46,7 +46,7 @@
         <!--Image Post HomeVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="BYZ-38-t0r" customClass="ImagePostHomeVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ImagePostHomeVC" automaticallyAdjustsScrollViewInsets="NO" id="BYZ-38-t0r" customClass="ImagePostHomeVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -145,7 +145,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QXW-Z5-F9d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1076" y="-608"/>
+            <point key="canvasLocation" x="1076" y="-662"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="pu1-EX-hcW">
