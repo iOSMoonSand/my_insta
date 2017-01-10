@@ -29,6 +29,7 @@
 		5E9B6FBB1E1F305E00B3AA02 /* ImagePostCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B6FBA1E1F305E00B3AA02 /* ImagePostCell.m */; };
 		5E9B6FBE1E1F308E00B3AA02 /* ImagePostHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B6FBD1E1F308E00B3AA02 /* ImagePostHomeVC.m */; };
 		5E9FD5191E20537000D6741F /* lol.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5E9FD5181E20537000D6741F /* lol.jpg */; };
+		5E9FD51C1E207E5600D6741F /* InstgrmLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9FD51B1E207E5600D6741F /* InstgrmLoginVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +64,8 @@
 		5E9B6FBC1E1F308E00B3AA02 /* ImagePostHomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePostHomeVC.h; sourceTree = "<group>"; };
 		5E9B6FBD1E1F308E00B3AA02 /* ImagePostHomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePostHomeVC.m; sourceTree = "<group>"; };
 		5E9FD5181E20537000D6741F /* lol.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lol.jpg; sourceTree = "<group>"; };
+		5E9FD51A1E207E5600D6741F /* InstgrmLoginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstgrmLoginVC.h; sourceTree = "<group>"; };
+		5E9FD51B1E207E5600D6741F /* InstgrmLoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstgrmLoginVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +121,8 @@
 				5E9B6FAA1E1EE3C800B3AA02 /* Global Data Models */,
 				5E9B6FB71E1F149D00B3AA02 /* Data Source */,
 				5E9B6FA81E1EE3A300B3AA02 /* Image Posts Home */,
+				5E9FD51A1E207E5600D6741F /* InstgrmLoginVC.h */,
+				5E9FD51B1E207E5600D6741F /* InstgrmLoginVC.m */,
 				5E7FAED71E1DD1A200828196 /* Main.storyboard */,
 				5E7FAEDC1E1DD1A200828196 /* LaunchScreen.storyboard */,
 				5E7FAECE1E1DD1A200828196 /* Supporting Files */,
@@ -280,6 +285,7 @@
 				5E9B6FB31E1F137000B3AA02 /* Comment.m in Sources */,
 				5E9B6FBB1E1F305E00B3AA02 /* ImagePostCell.m in Sources */,
 				5E9B6FB01E1EE86D00B3AA02 /* ImagePost.m in Sources */,
+				5E9FD51C1E207E5600D6741F /* InstgrmLoginVC.m in Sources */,
 				5E9B6FB61E1F148D00B3AA02 /* DataSource.m in Sources */,
 				5E7FAED31E1DD1A200828196 /* AppDelegate.m in Sources */,
 				5E9B6FBE1E1F308E00B3AA02 /* ImagePostHomeVC.m in Sources */,
