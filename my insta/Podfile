@@ -1,0 +1,6 @@
+platform :ios, '8.0'
+# Uncomment this line if you're using Swift
+
+target 'my insta' do
+pod 'UICKeyChainStore'
+end

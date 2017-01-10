@@ -6,6 +6,8 @@
 //  Copyright © 2017 MoonSandApps. All rights reserved.
 //
 
+#import <UICKeyChainStore.h>
+
 #import "Comment.h"
 #import "DataSource.h"
 #import "ImagePost.h"
@@ -44,7 +46,28 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        [self registerForAccessTokenNotification];
+        self.accessToken = [UICKeyChainStore stringForKey: @"access token"];
+        if (!self.accessToken) {
+            [self registerForAccessTokenNotification];
+        } else {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSString *fullPath = [self pathFor:NSStringFromSelector(@selector(imagePosts))];
+                NSArray *storedImagePosts = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (storedImagePosts.count > 0) {
+                        NSMutableArray *mutableImagePosts = [storedImagePosts mutableCopy];
+                        [self willChangeValueForKey:@"imagePosts"];
+                        self.imagePosts = mutableImagePosts;
+                        [self didChangeValueForKey:@"imagePosts"];
+                        for (ImagePost *post in self.imagePosts) {
+                            [self downloadImageFor: post];
+                        }
+                    } else {
+                        [self retrieveJsonDataWith: nil];
+                    }
+                });
+            });
+        }
     }
     return self;
 }
@@ -54,6 +77,7 @@
 - (void)registerForAccessTokenNotification {
     [[NSNotificationCenter defaultCenter] addObserverForName: InstgrmLoginVCDidGetAccessTokenNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         self.accessToken = note.object;
+        [UICKeyChainStore setString: self.accessToken forKey: @"access token"];
         [self retrieveJsonDataWith: nil];
     }];
 }
@@ -75,10 +99,10 @@
                 NSData *responseData = [NSURLConnection sendSynchronousRequest: request returningResponse: &response error: &webError];
                 if (responseData) {
                     NSError *jsonError;
-                    NSDictionary *feedDictionary = [NSJSONSerialization JSONObjectWithData: responseData options: 0 error: &jsonError];
-                    if (feedDictionary) {
+                    NSDictionary *feedDict = [NSJSONSerialization JSONObjectWithData: responseData options: 0 error: &jsonError];
+                    if (feedDict) {
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [self parseFeedDictionary: feedDictionary fromRequestWith: parameters];
+                            [self parseFeedDictionary: feedDict fromRequestWith: parameters];
                         });
                     }
                 }
@@ -87,8 +111,73 @@
     }
 }
 
-- (void)parseFeedDictionary: (NSDictionary *)feedDictionary fromRequestWith: (NSDictionary *)parameters {
-    NSLog(@"%@", feedDictionary);
+- (void)parseFeedDictionary: (NSDictionary *)feedDict fromRequestWith: (NSDictionary *)parameters {
+    NSArray *postsArray = feedDict[@"data"];
+    NSMutableArray *tmpPostsArray = [NSMutableArray array];
+    for (NSDictionary *postDict in postsArray) {
+        ImagePost *post = [[ImagePost alloc] initWith: postDict];
+        if (post) {
+            [tmpPostsArray addObject: post];
+            [self downloadImageFor: post];
+        }
+    }
+    [self willChangeValueForKey: @"imagePosts"];
+    self.imagePosts = tmpPostsArray;
+    [self didChangeValueForKey: @"imagePosts"];
+    
+    [self saveImages];
+}
+
+- (void) downloadImageFor:(ImagePost *)post {
+    if (post.imageURL && !post.image) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSURLRequest *request = [NSURLRequest requestWithURL:post.imageURL];
+            NSURLResponse *response;
+            NSError *error;
+            NSData *imageData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            if (imageData) {
+                UIImage *image = [UIImage imageWithData:imageData];
+                
+                if (image) {
+                    post.image = image;
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"imagePosts"];
+                        NSUInteger index = [mutableArrayWithKVO indexOfObject:post];
+                        [mutableArrayWithKVO replaceObjectAtIndex:index withObject:post];
+                        [self saveImages];
+                    });
+                }
+            } else {
+                NSLog(@"Error downloading image: %@", error);
+            }
+        });
+    }
+}
+#pragma mark
+#pragma mark: Persistence to Disk Methods
+#pragma mark
+- (NSString *)pathFor: (NSString *)fileName {
+    NSArray *pathsArray = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *docsDir = [pathsArray firstObject];
+    NSString *filePath = [docsDir stringByAppendingPathComponent: fileName];
+    return filePath;
+}
+
+- (void)saveImages {
+    if (self.imagePosts.count > 0) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSUInteger postsToSaveCount = MIN(self.imagePosts.count, 50);
+            NSArray *postsToSave = [self.imagePosts subarrayWithRange: NSMakeRange(0, postsToSaveCount)];
+            NSString *fullPath = [self pathFor: NSStringFromSelector(@selector(imagePosts))];
+            NSData *postData = [NSKeyedArchiver archivedDataWithRootObject: postsToSave];
+            NSError *dataError;
+            BOOL wroteSuccessfully = [postData writeToFile:fullPath options:NSDataWritingAtomic | NSDataWritingFileProtectionCompleteUnlessOpen error:&dataError];
+            if (!wroteSuccessfully) {
+                NSLog(@"Couldn't write file: %@", dataError);
+            }
+        });
+    }
 }
 #pragma mark
 #pragma mark: Key/Value Observing Methods

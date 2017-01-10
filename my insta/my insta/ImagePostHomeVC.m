@@ -24,7 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView.rowHeight = UITableViewAutomaticDimension;
-    self.tableView.estimatedRowHeight = 480;
+    self.tableView.estimatedRowHeight = 400;
     [[DataSource shared] addObserver: self forKeyPath: @"imagePosts" options: 0 context: nil];
     UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
     [refresh addTarget: self action: @selector(didPullToRefresh:) forControlEvents: UIControlEventValueChanged];
