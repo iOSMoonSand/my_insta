@@ -20,14 +20,23 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [DataSource shared];
-    [[NSNotificationCenter defaultCenter] addObserverForName:InstgrmLoginVCDidGetAccessTokenNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+    if (![DataSource shared].accessToken) {
+        [[NSNotificationCenter defaultCenter] addObserverForName:InstgrmLoginVCDidGetAccessTokenNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+            self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+            UIStoryboard *mainSB = [UIStoryboard storyboardWithName: @"Main" bundle: nil];
+            UIViewController *vc = [mainSB instantiateViewControllerWithIdentifier: @"ImagePostHomeVC"];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController: vc];
+            self.window.rootViewController = nav;
+            [self.window makeKeyAndVisible];
+        }];
+    } else {
         self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
         UIStoryboard *mainSB = [UIStoryboard storyboardWithName: @"Main" bundle: nil];
         UIViewController *vc = [mainSB instantiateViewControllerWithIdentifier: @"ImagePostHomeVC"];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController: vc];
         self.window.rootViewController = nav;
         [self.window makeKeyAndVisible];
-    }];
+    }
     return YES;
 }
 
