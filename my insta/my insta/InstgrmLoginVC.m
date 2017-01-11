@@ -27,7 +27,7 @@ NSString *const InstgrmLoginVCDidGetAccessTokenNotification = @"InstgrmLoginVCDi
     [super viewDidLoad];
     self.webView.delegate = self;
     
-    NSString *urlString = [NSString stringWithFormat:@"https://instagram.com/oauth/authorize/?client_id=%@&redirect_uri=%@&response_type=token", [DataSource instgrmClientID], [self redirectURI]];
+    NSString *urlString = [NSString stringWithFormat:@"https://instagram.com/oauth/authorize/?client_id=%@&scope=comments&redirect_uri=%@&response_type=token", [DataSource instgrmClientID], [self redirectURI]];
     NSURL *url = [NSURL URLWithString: urlString];
     if (url) {
         NSURLRequest *request = [NSURLRequest requestWithURL: url];
