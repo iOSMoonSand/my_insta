@@ -10,6 +10,8 @@
 
 typedef void(^NewItemsCompletion)(NSError *error);
 
+@class ImagePost;
+
 @interface DataSource : NSObject
 
 @property (nonatomic, strong, readonly) NSArray *imagePosts;
@@ -18,5 +20,6 @@ typedef void(^NewItemsCompletion)(NSError *error);
 + (instancetype)shared;
 + (NSString *)instgrmClientID;
 - (void)requestNewItemsWith: (NewItemsCompletion)completion;
+- (void) downloadImageFor:(ImagePost *)post;
 
 @end

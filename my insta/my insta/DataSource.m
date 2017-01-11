@@ -63,9 +63,6 @@
                         [self willChangeValueForKey:@"imagePosts"];
                         self.imagePosts = mutableImagePosts;
                         [self didChangeValueForKey:@"imagePosts"];
-                        for (ImagePost *post in self.imagePosts) {
-                            [self downloadImageFor: post];
-                        }
                     } else {
                         [self retrieveJsonDataWith: nil completion: nil];
                     }
@@ -100,36 +97,6 @@
 
 - (void)retrieveJsonDataWith:(NSDictionary *)parameters completion: (NewItemsCompletion)completion {
     if (self.accessToken) {
-        //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        //            NSMutableString *urlString = [NSMutableString stringWithFormat: @"https://api.instagram.com/v1/users/self/media/recent?access_token=%@", self.accessToken];
-        //            for (NSString *parameterKey in parameters) {
-        //                [urlString appendFormat: @"&%@=%@", parameterKey, parameters[parameterKey]];
-        //            }
-        //            NSURL *url = [NSURL URLWithString: urlString];
-        //            if (url) {
-        //                NSURLRequest *request = [NSURLRequest requestWithURL: url];
-        //                NSURLResponse *response;
-        //                NSError *webError;
-        //                NSData *responseData = [NSURLConnection sendSynchronousRequest: request returningResponse: &response error: &webError];
-        //                if (responseData) {
-        //                    NSError *jsonError;
-        //                    NSDictionary *feedDict = [NSJSONSerialization JSONObjectWithData: responseData options: 0 error: &jsonError];
-        //                    if (feedDict) {
-        //                        dispatch_async(dispatch_get_main_queue(), ^{
-        //                            [self parseFeedDictionary: feedDict fromRequestWith: parameters];
-        //                            if (completion) {
-        //                                completion(nil);
-        //                            }
-        //                        });
-        //                    } else if (completion) {
-        //                        dispatch_async(dispatch_get_main_queue(), ^{
-        //                            completion(webError);
-        //                        });
-        //                    }
-        //                }
-        //            }
-        //        });
-        
         NSMutableDictionary *mutableParameters = [@{@"access_token": self.accessToken} mutableCopy];
         [mutableParameters addEntriesFromDictionary: parameters];
         [self.instgrmOperationMgr GET:@"users/self/media/recent"
@@ -156,7 +123,6 @@
         ImagePost *post = [[ImagePost alloc] initWith: postDict];
         if (post) {
             [tmpPostsArray addObject: post];
-            [self downloadImageFor: post];
         }
     }
     NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"imagePosts"];
@@ -176,41 +142,36 @@
 
 - (void) downloadImageFor:(ImagePost *)post {
     if (post.imageURL && !post.image) {
-        //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        //            NSURLRequest *request = [NSURLRequest requestWithURL:post.imageURL];
-        //            NSURLResponse *response;
-        //            NSError *error;
-        //            NSData *imageData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-        //            if (imageData) {
-        //                UIImage *image = [UIImage imageWithData:imageData];
-        //
-        //                if (image) {
-        //                    post.image = image;
-        //
-        //                    dispatch_async(dispatch_get_main_queue(), ^{
-        //                        NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"imagePosts"];
-        //                        NSUInteger index = [mutableArrayWithKVO indexOfObject:post];
-        //                        [mutableArrayWithKVO replaceObjectAtIndex:index withObject:post];
-        //                        [self saveImages];
-        //                    });
-        //                }
-        //            } else {
-        //                NSLog(@"Error downloading image: %@", error);
-        //            }
-        //        });
-        
+        post.downloadState = DownloadInProgress;
         [self.instgrmOperationMgr GET:post.imageURL.absoluteString
                            parameters:nil
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   if ([responseObject isKindOfClass:[UIImage class]]) {
                                       post.image = responseObject;
+                                      post.downloadState = HasImage;
                                       NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"imagePosts"];
                                       NSUInteger index = [mutableArrayWithKVO indexOfObject:post];
                                       [mutableArrayWithKVO replaceObjectAtIndex:index withObject:post];
+                                      [self saveImages];
+                                  } else {
+                                      post.downloadState = NonRecoverableError;
                                   }
-                                  [self saveImages];
                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                   NSLog(@"Error downloading image: %@", error);
+                                  post.downloadState = NonRecoverableError;
+                                  if ([error.domain isEqualToString: NSURLErrorDomain]) {
+                                      if (error.code == NSURLErrorTimedOut ||
+                                          error.code == NSURLErrorCancelled ||
+                                          error.code == NSURLErrorCannotConnectToHost ||
+                                          error.code == NSURLErrorNetworkConnectionLost ||
+                                          error.code == NSURLErrorNotConnectedToInternet ||
+                                          error.code == kCFURLErrorInternationalRoamingOff ||
+                                          error.code == kCFURLErrorCallIsActive ||
+                                          error.code == kCFURLErrorDataNotAllowed ||
+                                          error.code == kCFURLErrorRequestBodyStreamExhausted) {
+                                          post.downloadState = NeedsImage;
+                                      }
+                                  }
                               }];
     }
 }

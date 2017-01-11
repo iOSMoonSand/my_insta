@@ -33,6 +33,13 @@
 #pragma mark
 #pragma mark - UITableViewDelegate, UITableViewDataSource Methods
 #pragma mark
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    ImagePost *post = [DataSource shared].imagePosts[indexPath.row];
+    if (post.downloadState == NeedsImage) {
+        [[DataSource shared] downloadImageFor: post];
+    }
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [DataSource shared].imagePosts.count;
 }
@@ -42,12 +49,6 @@
     cell.post = [DataSource shared].imagePosts[indexPath.row];
     [cell performWith: cell.post];
     return cell;
-}
-
-- (void)didPullToRefresh: (UIRefreshControl *)sender {
-    [[DataSource shared] requestNewItemsWith:^(NSError *error) {
-        [sender endRefreshing];
-    }];
 }
 #pragma mark
 #pragma mark - Key/Value Observer Methods
@@ -83,6 +84,14 @@
             [self.tableView endUpdates];
         }
     }
+}
+#pragma mark
+#pragma mark - Refresh Control Methods
+#pragma mark
+- (void)didPullToRefresh: (UIRefreshControl *)sender {
+    [[DataSource shared] requestNewItemsWith:^(NSError *error) {
+        [sender endRefreshing];
+    }];
 }
 #pragma mark
 #pragma mark - Dealloc
