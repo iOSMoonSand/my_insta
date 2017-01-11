@@ -23,6 +23,9 @@
         NSURL *stdResImageURL = [NSURL URLWithString: stdResImgUrlString];
         if (stdResImageURL) {
             self.imageURL = stdResImageURL;
+            self.downloadState = NeedsImage;
+        } else {
+            self.downloadState = NonRecoverableError;
         }
         NSDictionary *captionDict = postDict[@"caption"];
         if ([captionDict isKindOfClass: [NSDictionary class]]) {
@@ -49,6 +52,13 @@
         self.user = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(user))];
         self.imageURL = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(imageURL))];
         self.image = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(image))];
+        if (self.image) {
+            self.downloadState = HasImage;
+        } else if (self.imageURL) {
+            self.downloadState = NeedsImage;
+        } else {
+            self.downloadState = NonRecoverableError;
+        }
         self.caption = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(caption))];
         self.comments = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(comments))];
     }
