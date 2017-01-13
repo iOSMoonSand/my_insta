@@ -25,6 +25,13 @@ typedef NS_ENUM(NSInteger, ImageDownloadState) {
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) NSString *caption;
 @property (nonatomic, strong) NSArray *comments;
+@property (nonatomic, strong) NSString *commentsCount;
+@property (nonatomic, strong) NSString *dateCreated;
+@property (nonatomic, strong) NSString *filter;
+@property (nonatomic, strong) NSString *likesCount;
+@property (nonatomic, strong) NSString *link;
+@property (nonatomic, strong) NSString *location;
+@property (nonatomic, strong) NSString *tags;
 @property (nonatomic, assign) ImageDownloadState downloadState;
 
 - (instancetype)initWith: (NSDictionary *)postDict;
