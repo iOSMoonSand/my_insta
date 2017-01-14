@@ -19,6 +19,10 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.82 green:0.92 blue:1.00 alpha:1.0]];
+    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [UIColor darkGrayColor], NSForegroundColorAttributeName,
+                                                           [UIFont fontWithName:@"HelveticaNeue-Light" size:21.0], NSFontAttributeName, nil]];
     [DataSource shared];
     if (![DataSource shared].accessToken) {
         [[NSNotificationCenter defaultCenter] addObserverForName:InstgrmLoginVCDidGetAccessTokenNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
