@@ -46,7 +46,7 @@
         NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate: timeInterval];
         NSString *formattedDateString = [formatter stringFromDate:date];
         self.dateCreated = formattedDateString;
-        if ([postDict[@"filter"] isKindOfClass: [NSDictionary class]]) {
+        if ([postDict[@"filter"] isKindOfClass: [NSString class]]) {
             self.filter = postDict[@"filter"];
         } else {
             self.likesCount = @"No Filter used.";
